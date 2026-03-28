@@ -1,0 +1,17 @@
+---
+- name: Create plex media root directory
+  file:
+    path: "{{ plex_media_dir }}"
+    owner: "{{ plex_user }}"
+    group: "{{ plex_group }}"
+    mode: "0755"
+    state: directory
+
+- name: Create plex media library directories
+  file:
+    path: "{{ plex_media_dir }}/{{ item }}"
+    owner: "{{ plex_user }}"
+    group: "{{ plex_group }}"
+    mode: "0777"
+    state: directory
+  loop: "{{ plex_media_libraries }}"

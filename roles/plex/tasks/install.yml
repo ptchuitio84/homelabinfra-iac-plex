@@ -1,0 +1,16 @@
+---
+- name: Install Plex Media Server
+  yum:
+    name: plexmediaserver
+    state: present
+
+- name: Enable and start Plex service
+  service:
+    name: plexmediaserver
+    enabled: yes
+    state: started
+
+- name: Install nginx
+  yum:
+    name: nginx
+    state: present

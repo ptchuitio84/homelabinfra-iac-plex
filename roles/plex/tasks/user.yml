@@ -1,0 +1,16 @@
+---
+- name: Create plex group
+  group:
+    name: "{{ plex_group }}"
+    gid: "{{ plex_gid }}"
+    state: present
+
+- name: Create plex user
+  user:
+    name: "{{ plex_user }}"
+    uid: "{{ plex_uid }}"
+    gid: "{{ plex_gid }}"
+    home: "{{ plex_user_home }}"
+    shell: "{{ plex_shell }}"
+    comment: "Plex user"
+    state: present

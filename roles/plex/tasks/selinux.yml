@@ -1,0 +1,6 @@
+---
+- name: Allow nginx to make network connections (SELinux)
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes

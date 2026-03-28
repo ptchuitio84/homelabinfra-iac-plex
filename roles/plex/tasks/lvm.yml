@@ -1,0 +1,25 @@
+---
+- name: Create LVM volume group
+  lvg:
+    vg: "{{ plex_lvm_vg }}"
+    pvs: "{{ plex_lvm_pvs | join(',') }}"
+    force: yes
+
+- name: Create LVM logical volume
+  lvol:
+    vg: "{{ plex_lvm_vg }}"
+    lv: "{{ plex_lvm_lv }}"
+    size: "{{ plex_lvm_size }}"
+    state: present
+
+- name: Format logical volume
+  filesystem:
+    fstype: "{{ plex_lvm_fstype }}"
+    dev: "/dev/{{ plex_lvm_vg }}/{{ plex_lvm_lv }}"
+
+- name: Mount plex media volume
+  mount:
+    path: "{{ plex_media_dir }}"
+    src: "/dev/{{ plex_lvm_vg }}/{{ plex_lvm_lv }}"
+    fstype: "{{ plex_lvm_fstype }}"
+    state: mounted

@@ -1,0 +1,19 @@
+---
+- name: Set plex config dir
+  set_fact:
+    plex_config_dir: "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server"
+
+- name: Deploy Plex Preferences.xml
+  copy:
+    src: Preferences.xml
+    dest: "{{ plex_config_dir }}/Preferences.xml"
+    owner: "{{ plex_user }}"
+    group: "{{ plex_group }}"
+    mode: "0644"
+
+- name: Deploy Plex database files
+  copy:
+    src: "Databases/"
+    dest: "{{ plex_config_dir }}/Plug-in Support/Databases/"
+    owner: "{{ plex_user }}"
+    group: "{{ plex_group }}"

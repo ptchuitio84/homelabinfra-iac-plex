@@ -1,0 +1,10 @@
+---
+- import_tasks: user.yml
+- import_tasks: repos.yml
+- import_tasks: install.yml
+- import_tasks: firewall.yml
+- import_tasks: lvm.yml
+- import_tasks: directories.yml
+- import_tasks: nginx.yml
+- import_tasks: selinux.yml
+- import_tasks: config.yml

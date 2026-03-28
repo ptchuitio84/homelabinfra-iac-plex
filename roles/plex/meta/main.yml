@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Patrick Tchuitio
+  description: Ansible role to deploy Plex Media Server with nginx reverse proxy
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: EL
+      versions:
+        - "7"
+        - "8"
+dependencies: []

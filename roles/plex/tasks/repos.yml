@@ -1,0 +1,17 @@
+---
+- name: Configure Plex yum repository
+  yum_repository:
+    name: plex
+    description: Plex Media Server Repository
+    baseurl: "{{ plex_repo_baseurl }}"
+    gpgkey: "{{ plex_repo_gpgkey }}"
+    gpgcheck: yes
+    enabled: yes
+
+- name: Configure nginx yum repository
+  yum_repository:
+    name: nginx
+    description: nginx repo
+    baseurl: "{{ nginx_repo_baseurl }}"
+    gpgcheck: no
+    enabled: yes

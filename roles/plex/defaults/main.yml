@@ -1,0 +1,59 @@
+---
+# Plex user/group
+plex_user: plex
+plex_uid: 12365
+plex_group: plex
+plex_gid: 5041
+plex_user_home: /home/plex
+plex_shell: /bin/bash
+
+# Plex repo
+plex_repo_baseurl: "https://downloads.plex.tv/repo/rpm/$basearch/"
+plex_repo_gpgkey: "https://downloads.plex.tv/plex-keys/PlexSign.key"
+
+# nginx repo
+nginx_repo_baseurl: "http://nginx.org/packages/mainline/centos/7/$basearch/"
+
+# Media
+plex_media_dir: /plex
+plex_media_libraries:
+  - Adventure_Movies
+  - Animation_Movies
+  - Anime_TV_Shows
+  - Dessins_Animes
+  - Disney_Movies
+  - Foreign_Movies
+  - Marvel_Movies
+  - English_Movies
+  - Music
+  - Pixar_Movies
+  - Series_Tele
+  - Stand-Up_Comedy
+  - Toons
+  - TV_Shows
+  - Workouts
+
+# LVM
+plex_lvm_vg: vg00
+plex_lvm_lv: lv_plex
+plex_lvm_pvs:
+  - /dev/sdb
+  - /dev/sdc
+plex_lvm_size: 500g
+plex_lvm_fstype: ext4
+
+# Firewall ports
+plex_firewall_tcp_ports:
+  - "80/tcp"
+  - "443/tcp"
+  - "3005/tcp"
+  - "8324/tcp"
+  - "32400/tcp"
+  - "32469/tcp"
+plex_firewall_udp_ports:
+  - "5353/udp"
+  - "1900/udp"
+  - "32410/udp"
+  - "32412/udp"
+  - "32413/udp"
+  - "32414/udp"
