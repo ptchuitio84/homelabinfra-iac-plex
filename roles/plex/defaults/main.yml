@@ -4,6 +4,8 @@ plex_user: plex
 plex_uid: 12365
 plex_group: plex
 plex_gid: 5041
+plex_admin_group: plexadmins
+plex_admin_gid: 1002
 plex_user_home: /home/plex
 plex_shell: /bin/bash
 

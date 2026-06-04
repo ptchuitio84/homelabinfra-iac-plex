@@ -2,16 +2,31 @@
 - name: Create plex media root directory
   file:
     path: "{{ plex_media_dir }}"
-    owner: "{{ plex_user }}"
-    group: "{{ plex_group }}"
-    mode: "0755"
+    owner: root
+    group: "{{ plex_admin_group }}"
+    mode: "2750"
     state: directory
 
 - name: Create plex media library directories
   file:
     path: "{{ plex_media_dir }}/{{ item }}"
-    owner: "{{ plex_user }}"
-    group: "{{ plex_group }}"
-    mode: "0777"
+    owner: root
+    group: "{{ plex_admin_group }}"
+    mode: "2750"
     state: directory
   loop: "{{ plex_media_libraries }}"
+
+- name: Create plex app support directory
+  file:
+    path: "{{ plex_media_dir }}/.plex"
+    owner: "{{ plex_user }}"
+    group: "{{ plex_admin_group }}"
+    mode: "0750"
+    state: directory
+
+- name: Symlink /var/lib/plexmediaserver to plex app support directory
+  file:
+    src: "{{ plex_media_dir }}/.plex"
+    dest: /var/lib/plexmediaserver
+    state: link
+    force: false

@@ -5,11 +5,19 @@
     gid: "{{ plex_gid }}"
     state: present
 
+- name: Create plexadmins group
+  group:
+    name: "{{ plex_admin_group }}"
+    gid: "{{ plex_admin_gid }}"
+    state: present
+
 - name: Create plex user
   user:
     name: "{{ plex_user }}"
     uid: "{{ plex_uid }}"
     gid: "{{ plex_gid }}"
+    groups: "{{ plex_admin_group }}"
+    append: true
     home: "{{ plex_user_home }}"
     shell: "{{ plex_shell }}"
     comment: "Plex user"
