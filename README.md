@@ -7,13 +7,13 @@ Ansible automation for deploying and configuring Plex Media Server on the NNT ho
 ## Architecture
 
 ```
-Jenkins pipeline (nnt-jkn-plex-deploy)
+Jenkins pipeline (lab-jkn-plex-deploy)
     │
-    ▼ runs on hmvlapans001 (Ansible control node)
+    ▼ runs on ansible-ctl-01 (Ansible control node)
     │
     ├── Lint + Syntax check (ansible-lint)
     │
-    └── Deploy → hmpplxap002 (Plex media server)
+    └── Deploy → plex-01 (Plex media server)
                     │
                     ├── User/group provisioning (uid 12365, gid 5041)
                     ├── Repo setup (Plex + Nginx GPG-signed repos)
@@ -27,7 +27,7 @@ Jenkins pipeline (nnt-jkn-plex-deploy)
                     └── Plex Preferences.xml restore
 ```
 
-**Target host:** `hmpplxap002` (10.100.7.10) — CentOS 7, bare-metal or VM, root SSH access  
+**Target host:** `plex-01` (10.0.7.10) — CentOS 7, bare-metal or VM, root SSH access  
 **Media storage:** LVM across two physical disks (`/dev/sdb`, `/dev/sdc`)  
 **Network access:** Plex UI at port 32400; Nginx reverse proxy at 80/443  
 
@@ -40,7 +40,7 @@ plex-ansible/
 ├── site.yml                          # Top-level playbook → plex role
 ├── Jenkinsfile                        # CI/CD pipeline definition
 ├── inventory/
-│   └── hosts.yml                      # hmpplxap002 (10.100.7.10)
+│   └── hosts.yml                      # plex-01 (10.0.7.10)
 ├── group_vars/
 │   └── plex_servers.yml               # Group-level vars (if present)
 └── roles/
@@ -75,8 +75,8 @@ plex-ansible/
 | Target OS | CentOS 7 (yum, firewalld, SELinux) |
 | Disks | `/dev/sdb` and `/dev/sdc` — unpartitioned, used for LVM |
 | Network | Outbound internet access (Plex + Nginx repos) |
-| SSH | Root access from Ansible control node (`hmvlapans001`) |
-| Ansible | ansible-core 2.15+ on `hmvlapans001` |
+| SSH | Root access from Ansible control node (`ansible-ctl-01`) |
+| Ansible | ansible-core 2.15+ on `ansible-ctl-01` |
 
 **Disk warning:** The LVM task (`tasks/lvm.yml`) will format `/dev/sdb` and `/dev/sdc`. If those devices already have data, it will be destroyed. Verify device names match before running.
 
@@ -84,8 +84,8 @@ plex-ansible/
 
 ## Jenkins Pipeline
 
-**Pipeline:** `nnt-jkn-plex-deploy`  
-**Agent:** `ans001` (hmvlapans001)  
+**Pipeline:** `lab-jkn-plex-deploy`  
+**Agent:** `ans001` (ansible-ctl-01)  
 **Jenkinsfile:** `Jenkinsfile` (this repo, root)
 
 Parameters:
@@ -105,19 +105,19 @@ Always run with `DRY_RUN=true` first to validate what will change before committ
 
 ---
 
-## Manual Run (from hmvlapans001)
+## Manual Run (from ansible-ctl-01)
 
 ```bash
 cd /opt/plex-ansible
 
 # Dry run — shows planned changes, applies nothing
-ansible-playbook site.yml --check --limit hmpplxap002
+ansible-playbook site.yml --check --limit plex-01
 
 # Live deploy
-ansible-playbook site.yml --limit hmpplxap002
+ansible-playbook site.yml --limit plex-01
 
 # Target a specific role task (e.g., firewall only)
-ansible-playbook site.yml --limit hmpplxap002 --tags firewall
+ansible-playbook site.yml --limit plex-01 --tags firewall
 ```
 
 ---
